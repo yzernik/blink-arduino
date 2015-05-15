@@ -4,6 +4,8 @@ Small Clojure program to blink an LED output on an Arduino using core.async.
 
 ## Usage
 
+Load the standard Firmata firmware onto your Arduino.
+
 Plug in Arduino to your computer with USB. Then
 
 ```
