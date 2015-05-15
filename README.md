@@ -1,32 +1,16 @@
 # blink-arduino
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
+Small Clojure program to blink an LED output on an Arduino using core.async.
 
 ## Usage
 
-FIXME: explanation
+Plug in Arduino to your computer with USB. Then
 
-    $ java -jar blink-arduino-0.1.0-standalone.jar [args]
+```
+lein run
+```
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+Attach an LED to pin 13 to watch it blink.
 
 ## License
 
