@@ -2,33 +2,31 @@
   (:require [clojure.core.async :refer :all]
             [firmata.core :as fc]))
 
+(def board (fc/open-serial-board :auto-detect))
 
-(defn make-pin [pin-number]
+(defn make-pin
+  [pin-number]
   (let [state (atom nil)]
     {:number pin-number :state state}))
 
-(defn set-pin [pin new-state-fn]
+(defn set-pin
+  [pin new-state]
   (let [state (:state pin)
-        new-state (swap! state new-state-fn)]
-    (do (println "Pin:" (:number pin) ", state:" new-state))))
+        num (:number pin)]
+    (do (reset! state new-state)
+        (fc/set-digital board num new-state)
+        (println "Pin:" num ", state:" new-state))))
 
-(defn opposite-state [pin-state]
-  (if (= :high pin-state) :low :high))
+(defn blink
+  [pin duration]
+  (go (do
+        (set-pin pin :high)
+        (<! (timeout duration))
+        (set-pin pin :low))))
 
-(defn toggle-pin [pin]
-  (set-pin pin opposite-state))
-
-(defn alternate [pin-num]
+(defn keep-blinking
+  [pin-num]
   (let [pin (make-pin pin-num)]
     (go (while true
-          (<! (timeout 100))
-          (toggle-pin pin)))))
-
-(defn blink [pin duration]
-  (go (do
-        (<! (timeout 100))
-        (toggle-pin pin))))
-
-(defn timeout-loop []
-  (<!!
-   (alternate 13)))
+          (<! (timeout 500))
+          (blink pin 50)))))
