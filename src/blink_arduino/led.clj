@@ -28,5 +28,5 @@
   [pin-num]
   (let [pin (make-pin pin-num)]
     (go (while true
-          (<! (timeout 500))
-          (blink pin 50)))))
+          (blink pin 50)
+          (<! (timeout 500))))))
