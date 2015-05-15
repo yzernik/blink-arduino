@@ -15,7 +15,7 @@
         num (:number pin)]
     (do (reset! state new-state)
         (fc/set-digital board num new-state)
-        (println "Pin:" num ", state:" new-state))))
+        (println pin))))
 
 (defn blink
   [pin duration]
